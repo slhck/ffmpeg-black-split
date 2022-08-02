@@ -10,7 +10,7 @@ Author: Werner Robitza <werner.robitza@gmail.com>
 
 # Requirements
 
-- Python 3.5 or higher
+- Python 3.7 or higher
 - FFmpeg:
     - download a static build from [their website](http://ffmpeg.org/download.html))
     - put the `ffmpeg` executable in your `$PATH`
@@ -34,7 +34,12 @@ The output will be placed in the current directory, with each file being named `
 Example to get the JSON output:
 
 ```bash
-$ ffmpeg-black-split input.mkv -p -v 2>/dev/null
+ffmpeg-black-split input.mkv -p -v 2>/dev/null
+```
+
+Returns:
+
+```json
 {
   "black_periods": [
     {
