@@ -134,7 +134,7 @@ def black_periods_to_content_periods(black_periods):
 
 def cut_part(
     input_file,
-    output_directory,
+    output_directory=None,
     start=None,
     end=None,
     progress=False,
@@ -143,6 +143,9 @@ def cut_part(
     """
     Cut a part of a video.
     """
+    if output_directory is None:
+        output_directory = os.getcwd()
+
     if start is None:
         start = 0
 
@@ -216,7 +219,6 @@ def main():
     parser.add_argument(
         "-o",
         "--output-directory",
-        default=os.getcwd(),
         help="Set the output directory. Default is the current working directory.",
     )
     parser.add_argument(
