@@ -58,14 +58,14 @@ class TestBlackSplit:
             ],
             "content_periods": [
                 {"start": 5.0, "end": 10.0},
-                {"start": 10.0, "end": 20.0},
-                {"start": 20.0},
+                {"start": 15.0, "end": 20.0},
+                {"start": 25.0},
             ],
         }
 
         for output_file in [
-            "test_10.0-20.0.mkv",
-            "test_20.0-.mkv",
             "test_5.0-10.0.mkv",
+            "test_15.0-20.0.mkv",
+            "test_25.0-.mkv",
         ]:
             assert os.path.exists(os.path.join(os.path.dirname(__file__), output_file))

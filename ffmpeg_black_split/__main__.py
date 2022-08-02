@@ -113,8 +113,8 @@ def black_periods_to_content_periods(black_periods):
     """
     content_periods = []
     previous_period_end = 0
-    for i, black_period in enumerate(black_periods):
-        if i == 0 and black_period["start"] == 0:
+    for black_period in black_periods:
+        if black_period["start"] == 0:
             # first black period starts at 0, so we don't need to split it
             previous_period_end = black_period["end"]
             continue
@@ -124,7 +124,7 @@ def black_periods_to_content_periods(black_periods):
             "end": black_period["start"],
         }
         content_periods.append(current_period)
-        previous_period_end = black_period["start"]
+        previous_period_end = black_period["end"]
 
     # add a final, open-ended one
     content_periods.append({"start": previous_period_end})
