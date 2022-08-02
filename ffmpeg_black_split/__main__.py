@@ -228,7 +228,7 @@ def main():
         "-v",
         "--verbose",
         action="store_true",
-        help="Print verbose info to stderr, and JSON of black periods to stdout",
+        help="Print verbose info to stderr, and JSON of black and content periods to stdout",
     )
 
     cli_args = parser.parse_args()

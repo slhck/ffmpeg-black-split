@@ -31,6 +31,44 @@ This might take a while depending on the length of your input file. It'll then s
 
 The output will be placed in the current directory, with each file being named `<input>_<start>-<end>.mkv`.
 
+Example to get the JSON output:
+
+```bash
+$ ffmpeg-black-split input.mkv -p -v 2>/dev/null
+{
+  "black_periods": [
+    {
+      "start": 0.0,
+      "end": 5.0,
+      "duration": 5.0
+    },
+    {
+      "start": 10.0,
+      "end": 15.0,
+      "duration": 5.0
+    },
+    {
+      "start": 20.0,
+      "end": 25.0,
+      "duration": 5.0
+    }
+  ],
+  "content_periods": [
+    {
+      "start": 5.0,
+      "end": 10.0
+    },
+    {
+      "start": 10.0,
+      "end": 20.0
+    },
+    {
+      "start": 20.0
+    }
+  ]
+}
+```
+
 # Extended Usage
 
 See `ffmpeg-black-split -h` for more:
@@ -62,8 +100,8 @@ optional arguments:
                         Set the output directory. Default is the current
                         working directory. (default: None)
   -p, --progress        Show a progress bar on stderr (default: False)
-  -v, --verbose         Print verbose info to stderr, and JSON of black
-                        periods to stdout (default: False)
+  -v, --verbose         Print verbose info to stderr, and JSON of black and
+                        content periods to stdout (default: False)
 ```
 
 # License
