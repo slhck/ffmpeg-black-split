@@ -33,7 +33,38 @@ The output will be placed in the current directory, with each file being named `
 
 # Extended Usage
 
-See `ffmpeg-black-split -h` for more.
+See `ffmpeg-black-split -h` for more:
+
+```
+usage: ffmpeg-black-split
+                    [-h] [-d BLACK_MIN_DURATION] [-r PICTURE_BLACK_RATIO_TH]
+                    [-t PIXEL_BLACK_TH] [-o OUTPUT_DIRECTORY] [-p] [-v]
+                    input
+
+ffmpeg-black-split v0.1.0
+
+positional arguments:
+  input                 input file
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -d BLACK_MIN_DURATION, --black-min-duration BLACK_MIN_DURATION
+                        Set the minimum detected black duration expressed in
+                        seconds. It must be a non-negative floating point
+                        number. (default: 2.0)
+  -r PICTURE_BLACK_RATIO_TH, --picture-black-ratio-th PICTURE_BLACK_RATIO_TH
+                        Set the threshold for considering a picture 'black'
+                        (default: 0.98)
+  -t PIXEL_BLACK_TH, --pixel-black-th PIXEL_BLACK_TH
+                        Set the threshold for considering a pixel 'black'
+                        (default: 0.1)
+  -o OUTPUT_DIRECTORY, --output-directory OUTPUT_DIRECTORY
+                        Set the output directory. Default is the current
+                        working directory. (default: None)
+  -p, --progress        Show a progress bar on stderr (default: False)
+  -v, --verbose         Print verbose info to stderr, and JSON of black
+                        periods to stdout (default: False)
+```
 
 # License
 
