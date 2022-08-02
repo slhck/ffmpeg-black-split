@@ -36,7 +36,7 @@ setup(
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
     ],
-    python_requires=">=3.5",
+    python_requires=">=3.7",
     install_requires=["tqdm>=4.38.0", "ffmpeg-progress-yield"],
     packages=["ffmpeg_black_split"],
     entry_points={
