@@ -137,6 +137,7 @@ def cut_part(
     output_directory=None,
     start=None,
     end=None,
+    no_copy=False,
     progress=False,
     verbose=False,
 ):
@@ -150,10 +151,15 @@ def cut_part(
         start = 0
 
     if end is not None:
-        to_args = ["-to", str(end)]
+        to_args = ["-t", str(end - start)]
     else:
         end = ""
         to_args = []
+
+    if no_copy:
+        codec_args = ["-c:v", "libx264", "-c:a", "aac"]
+    else:
+        codec_args = ["-c", "copy"]
 
     suffix = f"{start}-{end}.mkv"
     prefix = os.path.splitext(os.path.basename(input_file))[0]
@@ -163,13 +169,12 @@ def cut_part(
         "ffmpeg",
         "-hide_banner",
         "-y",
-        "-i",
-        input_file,
         "-ss",
         str(start),
+        "-i",
+        input_file,
         *to_args,
-        "-c",
-        "copy",
+        *codec_args,
         "-map",
         "0",
         output_file,
@@ -225,6 +230,9 @@ def main():
         "--no-split", action="store_true", help="Don't split the video into segments."
     )
     parser.add_argument(
+        "--no-copy", action="store_true", help="Don't stream-copy, but re-encode the video."
+    )
+    parser.add_argument(
         "-p", "--progress", action="store_true", help="Show a progress bar on stderr"
     )
     parser.add_argument(
@@ -271,6 +279,7 @@ def main():
                 output_directory=cli_args.output_directory,
                 start=content_period["start"],
                 end=content_period.get("end"),
+                no_copy=cli_args.no_copy,
                 progress=cli_args.progress,
                 verbose=cli_args.verbose,
             )

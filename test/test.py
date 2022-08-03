@@ -38,7 +38,7 @@ class TestBlackSplit:
         """
         Test JSON output
         """
-        stdout, stderr = run_command(
+        stdout, _ = run_command(
             [
                 "python3",
                 "-m",
@@ -47,6 +47,7 @@ class TestBlackSplit:
                 "-v",
                 "-o",
                 os.path.dirname(__file__),
+                "--no-copy",
             ]
         )
 
@@ -68,4 +69,20 @@ class TestBlackSplit:
             "test_15.0-20.0.mkv",
             "test_25.0-.mkv",
         ]:
+            print(f"Testing {output_file} ... ")
+
             assert os.path.exists(os.path.join(os.path.dirname(__file__), output_file))
+
+            # get the duration of the output via ffmpeg
+            cmd = [
+                "ffprobe",
+                "-v",
+                "error",
+                "-show_entries",
+                "format=duration",
+                "-of",
+                "default=noprint_wrappers=1:nokey=1",
+                os.path.join(os.path.dirname(__file__), output_file),
+            ]
+            stdout, _ = run_command(cmd)
+            assert float(stdout) == 5.0
