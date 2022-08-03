@@ -222,6 +222,9 @@ def main():
         help="Set the output directory. Default is the current working directory.",
     )
     parser.add_argument(
+        "--no-split", action="store_true", help="Don't split the video into segments."
+    )
+    parser.add_argument(
         "-p", "--progress", action="store_true", help="Show a progress bar on stderr"
     )
     parser.add_argument(
@@ -260,14 +263,17 @@ def main():
             )
         )
 
-    # cut the individual periods to files
-    for content_period in content_periods:
-        cut_part(
-            cli_args.input,
-            output_directory=cli_args.output_directory,
-            start=content_period["start"],
-            end=content_period.get("end"),
-        )
+    if not cli_args.no_split:
+        # cut the individual periods to files
+        for content_period in content_periods:
+            cut_part(
+                cli_args.input,
+                output_directory=cli_args.output_directory,
+                start=content_period["start"],
+                end=content_period.get("end"),
+                progress=cli_args.progress,
+                verbose=cli_args.verbose,
+            )
 
 
 if __name__ == "__main__":

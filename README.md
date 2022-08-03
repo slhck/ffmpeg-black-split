@@ -79,12 +79,12 @@ Returns:
 See `ffmpeg-black-split -h` for more:
 
 ```
-usage: ffmpeg-black-split
-                    [-h] [-d BLACK_MIN_DURATION] [-r PICTURE_BLACK_RATIO_TH]
-                    [-t PIXEL_BLACK_TH] [-o OUTPUT_DIRECTORY] [-p] [-v]
-                    input
+usage: __main__.py [-h] [-d BLACK_MIN_DURATION] [-r PICTURE_BLACK_RATIO_TH]
+                   [-t PIXEL_BLACK_TH] [-o OUTPUT_DIRECTORY] [--no-split] [-p]
+                   [-v]
+                   input
 
-ffmpeg-black-split v0.1.0
+ffmpeg-black-split v0.2.1
 
 positional arguments:
   input                 input file
@@ -104,6 +104,7 @@ optional arguments:
   -o OUTPUT_DIRECTORY, --output-directory OUTPUT_DIRECTORY
                         Set the output directory. Default is the current
                         working directory. (default: None)
+  --no-split            Don't split the video into segments. (default: False)
   -p, --progress        Show a progress bar on stderr (default: False)
   -v, --verbose         Print verbose info to stderr, and JSON of black and
                         content periods to stdout (default: False)
