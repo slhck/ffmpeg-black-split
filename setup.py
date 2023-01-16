@@ -1,18 +1,19 @@
 # Always prefer setuptools over distutils
-from setuptools import setup
-
-# To use a consistent encoding
-from codecs import open
 import os
+
+from setuptools import setup
 
 here = os.path.abspath(os.path.dirname(__file__))
 
 # Versioning
 with open(os.path.join(here, "ffmpeg_black_split", "__init__.py")) as version_file:
-    version = eval(version_file.read().split("\n")[0].split("=")[1].strip())
+    for line in version_file:
+        if line.startswith("__version__"):
+            version = line.split("=")[1].strip().strip('"')
+            break
 
 # Get the long description from the README file
-with open(os.path.join(here, "README.md"), encoding="utf-8") as f:
+with open(os.path.join(here, "README.md")) as f:
     long_description = f.read()
 
 setup(
@@ -31,15 +32,17 @@ setup(
         "Topic :: Multimedia :: Video",
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
     ],
-    python_requires=">=3.7",
+    python_requires=">=3.8",
     install_requires=["tqdm>=4.38.0", "ffmpeg-progress-yield"],
     packages=["ffmpeg_black_split"],
     entry_points={
-        "console_scripts": ["ffmpeg-black-split=ffmpeg_black_split.__main__:main",],
+        "console_scripts": [
+            "ffmpeg-black-split=ffmpeg_black_split.__main__:main",
+        ],
     },
 )

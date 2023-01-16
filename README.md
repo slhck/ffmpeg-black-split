@@ -2,9 +2,13 @@
 
 [![PyPI version](https://img.shields.io/pypi/v/ffmpeg-black-split.svg)](https://pypi.org/project/ffmpeg-black-split)
 
+[![Python package](https://github.com/slhck/ffmpeg-black-split/actions/workflows/python-package.yml/badge.svg)](https://github.com/slhck/ffmpeg-black-split/actions/workflows/python-package.yml)
+
 Split a video based on black frames.
 
 This tool uses the [`blackdetect` filter](http://ffmpeg.org/ffmpeg-filters.html#blackdetect) from ffmpeg to determine the periods of black content.
+
+It can cut the video into segments based on these periods, and also output the detected black and content periods as JSON.
 
 Author: Werner Robitza <werner.robitza@gmail.com>
 
@@ -15,18 +19,21 @@ Contents:
 - [Usage](#usage)
   - [JSON Output](#json-output)
   - [Extended Usage](#extended-usage)
+- [API](#api)
 - [License](#license)
 
 ## Requirements
 
-- Python 3.7 or higher
+- Python 3.8 or higher
 - FFmpeg:
     - download a static build from [their website](http://ffmpeg.org/download.html))
     - put the `ffmpeg` executable in your `$PATH`
 
 ## Installation
 
-    pip3 install --user ffmpeg_black_split
+```bash
+pip3 install --user ffmpeg_black_split
+```
 
 Or clone this repository, then run the tool with `python3 -m ffmpeg_black_split`.
 
@@ -34,7 +41,9 @@ Or clone this repository, then run the tool with `python3 -m ffmpeg_black_split`
 
 Run:
 
-    ffmpeg-black-split <input-file>
+```bash
+ffmpeg-black-split <input-file>
+```
 
 This might take a while depending on the length of your input file. It'll then split the video into parts, prefixed by the original filename. The audio and video streams will be copied as-is.
 
@@ -83,7 +92,8 @@ Returns:
       "end": 20.0
     },
     {
-      "start": 20.0
+      "start": 20.0,
+      "end": null
     }
   ]
 }
@@ -94,12 +104,12 @@ Returns:
 See `ffmpeg-black-split -h` for more:
 
 ```
-usage: __main__.py [-h] [-d BLACK_MIN_DURATION] [-r PICTURE_BLACK_RATIO_TH]
+usage: ffmpeg-black-split [-h] [-d BLACK_MIN_DURATION] [-r PICTURE_BLACK_RATIO_TH]
                    [-t PIXEL_BLACK_TH] [-o OUTPUT_DIRECTORY] [--no-split]
                    [--no-copy] [-p] [-v]
                    input
 
-ffmpeg-black-split v0.3.0
+ffmpeg-black-split v0.4.0
 
 positional arguments:
   input                 input file
@@ -127,9 +137,24 @@ optional arguments:
                         content periods to stdout (default: False)
 ```
 
+## API
+
+The program exposes an API that you can use yourself:
+
+```python
+from ffmpeg_black_split import FfmpegBlackSplit
+
+ffbs = FfmpegBlackSplit("input.mkv")
+ffbs.detect_black_periods()
+ffbs.cut_all_periods("/path/to/output/folder")
+```
+
+For more usage please read [the docs](https://htmlpreview.github.io/?https://github.com/slhck/ffmpeg-black-split/blob/master/docs/ffmpeg_black_split.html).
+
+
 ## License
 
-ffmpeg_black_split, Copyright (c) 2022 Werner Robitza
+ffmpeg_black_split, Copyright (c) 2022-2023 Werner Robitza
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 

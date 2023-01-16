@@ -1,8 +1,9 @@
 #!/usr/bin/env pytest
 
-import os
 import json
+import os
 import subprocess
+
 import pytest
 
 TEST_FILE = os.path.abspath(os.path.join(os.path.dirname(__file__), "test.mp4"))
@@ -60,7 +61,7 @@ class TestBlackSplit:
             "content_periods": [
                 {"start": 5.0, "end": 10.0},
                 {"start": 15.0, "end": 20.0},
-                {"start": 25.0},
+                {"start": 25.0, "end": None},
             ],
         }
 
