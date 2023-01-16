@@ -1,21 +1,43 @@
-Changelog
-=========
+# Changelog
 
 
-(unreleased)
-------------
-- Bump version to 0.3.0. [Werner Robitza]
-- Add no-copy option and duration tests. [Werner Robitza]
-- Add CLI option to prevent splits. [Werner Robitza]
-- Bump version to 0.2.1. [Werner Robitza]
-- Update python requirements. [Werner Robitza]
-- Bump version to 0.2.0. [Werner Robitza]
-- Update python requirements. [Werner Robitza]
-- Fix bug in content split calculation. [Werner Robitza]
-- Add example, update CLI docs. [Werner Robitza]
-- Bump version to 0.1.1. [Werner Robitza]
-- Update README. [Werner Robitza]
-- Set default dir in method, not argparse. [Werner Robitza]
-- Initial commit. [Werner Robitza]
+## v0.4.0 (2023-01-16)
+
+* Update package.
+
+  add proper API, changelog, github workflows, docs
+
+
+## v0.3.0 (2022-08-03)
+
+* Add no-copy option and duration tests.
+
+* Add CLI option to prevent splits.
+
+
+## v0.2.1 (2022-08-02)
+
+* Update python requirements.
+
+
+## v0.2.0 (2022-08-02)
+
+* Update python requirements.
+
+* Fix bug in content split calculation.
+
+* Add example, update CLI docs.
+
+
+## v0.1.1 (2022-08-02)
+
+* Update README.
+
+* Set default dir in method, not argparse.
+
+
+## v0.1.0 (2022-08-02)
+
+* Initial commit.
 
 
