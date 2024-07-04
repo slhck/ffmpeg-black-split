@@ -5,7 +5,7 @@ import os
 import re
 import shlex
 import sys
-from typing import Literal, TypedDict, Union
+from typing import Literal, Optional, TypedDict, Union
 
 from ffmpeg_progress_yield import FfmpegProgress
 from tqdm import tqdm
@@ -55,7 +55,7 @@ class FfmpegBlackSplit:
         black_min_duration=DEFAULT_BLACK_MIN_DURATION,
         picture_black_ratio_th=DEFAULT_PICTURE_BLACK_RATIO_TH,
         pixel_black_th=DEFAULT_PIXEL_BLACK_TH,
-    ) -> list:
+    ) -> list[Period]:
         """
         Get black periods from ffmpeg.
 
@@ -81,7 +81,6 @@ class FfmpegBlackSplit:
         ]
 
         try:
-
             cmd = [
                 "ffmpeg",
                 "-hide_banner",
@@ -172,22 +171,18 @@ class FfmpegBlackSplit:
         """
         content_periods: list[Union[Period, OpenPeriod]] = []
         previous_period_end: float = 0.0
-        for black_period in black_periods:
-            if black_period["start"] == 0:
-                # first black period starts at 0, so we don't need to split it
-                previous_period_end = black_period["end"]
-                continue
 
-            current_period: OpenPeriod = {
-                "start": previous_period_end,
-                "end": black_period["start"],
-            }
-            content_periods.append(current_period)
+        sorted_black_periods = sorted(black_periods, key=lambda x: x["start"])
+
+        for black_period in sorted_black_periods:
+            if black_period["start"] > previous_period_end:
+                content_periods.append(
+                    {"start": previous_period_end, "end": black_period["start"]}
+                )
             previous_period_end = black_period["end"]
 
         # add a final, open-ended one
-        open_period: OpenPeriod = {"start": previous_period_end, "end": None}
-        content_periods.append(open_period)
+        content_periods.append({"start": previous_period_end, "end": None})
 
         return content_periods
 
@@ -196,6 +191,7 @@ class FfmpegBlackSplit:
         output_directory: str,
         no_copy: bool = False,
         progress: bool = False,
+        filtered_black_periods: Optional[list[Period]] = None,
     ):
         """
         Cut all periods to individual files.
@@ -204,19 +200,71 @@ class FfmpegBlackSplit:
             output_directory (str): Output directory.
             no_copy (bool, optional): Do not copy the streams, reencode them. Defaults to False.
             progress (bool, optional): Show progress bar. Defaults to False.
+            filtered_black_periods (Optional[list[Period]]): List of filtered black periods to use for cutting
         """
-        if len(self.content_periods) == 0:
+        if filtered_black_periods is not None:
+            content_periods = self.black_periods_to_content_periods(
+                filtered_black_periods
+            )
+        else:
+            content_periods = self.content_periods
+
+        if len(content_periods) == 0:
             raise Exception("No content periods detected.")
 
-        for content_period in self.content_periods:
-            FfmpegBlackSplit.cut_part_from_file(
+        for i, content_period in enumerate(content_periods):
+            start = content_period["start"]
+            end = content_period.get("end")
+
+            if end is None and i < len(content_periods) - 1:
+                end = content_periods[i + 1]["start"]
+
+            self.cut_part_from_file(
                 self.input_file,
                 output_directory=output_directory,
-                start=content_period["start"],
-                end=content_period.get("end"),
+                start=start,
+                end=end,
                 no_copy=no_copy,
                 progress=progress,
             )
+
+    @staticmethod
+    def filter_black_periods(
+        black_periods: list[Period], num_cuts: int = 1
+    ) -> list[Period]:
+        """
+        Filter black periods based on desired number of cuts or custom black periods.
+
+        Args:
+            num_cuts (int): Desired number of cuts (default: 1)
+
+        Returns:
+            list[Period]: Filtered list of black periods
+        """
+        if not black_periods:
+            raise ValueError(
+                "No black periods detected. Run detect_black_periods first."
+            )
+
+        if num_cuts >= len(black_periods):
+            return black_periods
+
+        # select periods closest to evenly dividing the video
+        video_duration = max(period["end"] for period in black_periods)
+        ideal_cut_times = [
+            video_duration * (i + 1) / (num_cuts + 1) for i in range(num_cuts)
+        ]
+
+        selected_periods = []
+        for cut_time in ideal_cut_times:
+            closest_period = min(
+                black_periods,
+                key=lambda p: abs(p["start"] + p["duration"] / 2 - cut_time),
+            )
+            selected_periods.append(closest_period)
+            black_periods.remove(closest_period)
+
+        return selected_periods
 
     @staticmethod
     def cut_part_from_file(
