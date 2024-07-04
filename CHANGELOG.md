@@ -1,6 +1,13 @@
 # Changelog
 
 
+## v0.5.0 (2024-07-04)
+
+* Allow filtering black periods based on heuristics.
+
+* Add mypy settings.
+
+
 ## v0.4.0 (2023-01-16)
 
 * Update package.
