@@ -127,12 +127,12 @@ class FfmpegBlackSplit:
                 black_start: Union[float, None] = None
                 black_end: Union[float, None] = None
                 black_duration: Union[float, None] = None
-                if black_start_match := re.search(r"black_start:(\d+[\.\d+]?)", line):
+                if black_start_match := re.search(r"black_start:(\d+(?:\.\d+)?)", line):
                     black_start = float(black_start_match.group(1))
-                if black_end_match := re.search(r"black_end:(\d+[\.\d+]?)", line):
+                if black_end_match := re.search(r"black_end:(\d+(?:\.\d+)?)", line):
                     black_end = float(black_end_match.group(1))
                 if black_duration_match := re.search(
-                    r"black_duration:(\d+[\.\d+]?)", line
+                    r"black_duration:(\d+(?:\.\d+)?)", line
                 ):
                     black_duration = float(black_duration_match.group(1))
 
