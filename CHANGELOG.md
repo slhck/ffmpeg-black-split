@@ -1,6 +1,11 @@
 # Changelog
 
 
+## v0.5.1 (2024-07-08)
+
+* Fix detection of fractional seconds.
+
+
 ## v0.5.0 (2024-07-04)
 
 * Allow filtering black periods based on heuristics.
