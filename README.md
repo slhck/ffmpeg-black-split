@@ -51,6 +51,8 @@ The output will be placed in the current directory, with each file being named `
 
 Note that by default, cutting is not that accurate, as stream-copying is used. If you want to re-encode using x264, you can use the `--no-copy` flag. (Future versions may have better options for encoding.)
 
+Choose a different output extension by specifying the `--output-extension` option. The default is `mkv`.
+
 Pass the `--no-split` option to disable the actual splitting.
 
 ### JSON Output
@@ -104,9 +106,8 @@ Returns:
 See `ffmpeg-black-split -h` for more:
 
 ```
-usage: ffmpeg-black-split [-h] [-d BLACK_MIN_DURATION] [-r PICTURE_BLACK_RATIO_TH]
-                   [-t PIXEL_BLACK_TH] [-o OUTPUT_DIRECTORY] [--no-split]
-                   [--no-copy] [-p] [-v]
+usage: ffmpeg-black-split [-h] [-d BLACK_MIN_DURATION] [-r PICTURE_BLACK_RATIO_TH] [-t PIXEL_BLACK_TH]
+                   [-o OUTPUT_DIRECTORY] [-e OUTPUT_EXTENSION] [--no-split] [--no-copy] [-p] [-v]
                    input
 
 ffmpeg-black-split v0.4.0
@@ -114,27 +115,27 @@ ffmpeg-black-split v0.4.0
 positional arguments:
   input                 input file
 
-optional arguments:
+options:
   -h, --help            show this help message and exit
   -d BLACK_MIN_DURATION, --black-min-duration BLACK_MIN_DURATION
-                        Set the minimum detected black duration expressed in
-                        seconds. It must be a non-negative floating point
-                        number. (default: 2.0)
+                        Set the minimum detected black duration expressed in seconds. It must be
+                        a non-negative floating point number. (default: 2.0)
   -r PICTURE_BLACK_RATIO_TH, --picture-black-ratio-th PICTURE_BLACK_RATIO_TH
-                        Set the threshold for considering a picture 'black'
-                        (default: 0.98)
+                        Set the threshold for considering a picture 'black' (default: 0.98)
   -t PIXEL_BLACK_TH, --pixel-black-th PIXEL_BLACK_TH
-                        Set the threshold for considering a pixel 'black'
-                        (default: 0.1)
+                        Set the threshold for considering a pixel 'black' (default: 0.1)
   -o OUTPUT_DIRECTORY, --output-directory OUTPUT_DIRECTORY
-                        Set the output directory. Default is the current
-                        working directory. (default: None)
+                        Set the output directory. Default is the current working directory.
+                        (default: None)
+  -e OUTPUT_EXTENSION, --output-extension OUTPUT_EXTENSION
+                        Set the ffmpeg output extension. Default is 'mkv'. Choose 'mov' for
+                        QuickTime-compatible files. (default: mkv)
   --no-split            Don't split the video into segments. (default: False)
-  --no-copy             Don't stream-copy, but re-encode the video. (default:
-                        False)
+  --no-copy             Don't stream-copy, but re-encode the video. This is useful in case of
+                        conversion errors when using different output formats. (default: False)
   -p, --progress        Show a progress bar on stderr (default: False)
-  -v, --verbose         Print verbose info to stderr, and JSON of black and
-                        content periods to stdout (default: False)
+  -v, --verbose         Print verbose info to stderr, and JSON of black and content periods to
+                        stdout (default: False)
 ```
 
 ## API
@@ -154,7 +155,7 @@ For more usage please read [the docs](https://htmlpreview.github.io/?https://git
 
 ## License
 
-ffmpeg_black_split, Copyright (c) 2022-2023 Werner Robitza
+ffmpeg_black_split, Copyright (c) 2022-2024 Werner Robitza
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 

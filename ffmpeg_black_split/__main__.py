@@ -65,12 +65,18 @@ def main():
         help="Set the output directory. Default is the current working directory.",
     )
     parser.add_argument(
+        "-e",
+        "--output-extension",
+        default="mkv",
+        help="Set the ffmpeg output extension. Default is 'mkv'. Choose 'mov' for QuickTime-compatible files.",
+    )
+    parser.add_argument(
         "--no-split", action="store_true", help="Don't split the video into segments."
     )
     parser.add_argument(
         "--no-copy",
         action="store_true",
-        help="Don't stream-copy, but re-encode the video.",
+        help="Don't stream-copy, but re-encode the video. This is useful in case of conversion errors when using different output formats.",
     )
     parser.add_argument(
         "-p", "--progress", action="store_true", help="Show a progress bar on stderr"
@@ -112,9 +118,10 @@ def main():
     if not cli_args.no_split:
         # cut the individual periods to files
         ffbs.cut_all_periods(
-            output_directory=cli_args.output_directory
-            if cli_args.output_directory
-            else os.getcwd(),
+            output_directory=(
+                cli_args.output_directory if cli_args.output_directory else os.getcwd()
+            ),
+            extension=cli_args.output_extension,
             no_copy=cli_args.no_copy,
             progress=cli_args.progress,
         )

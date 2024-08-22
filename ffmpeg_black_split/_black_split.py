@@ -189,6 +189,7 @@ class FfmpegBlackSplit:
     def cut_all_periods(
         self,
         output_directory: str,
+        extension: str = "mkv",
         no_copy: bool = False,
         progress: bool = False,
         filtered_black_periods: Optional[list[Period]] = None,
@@ -224,6 +225,7 @@ class FfmpegBlackSplit:
                 output_directory=output_directory,
                 start=start,
                 end=end,
+                extension=extension,
                 no_copy=no_copy,
                 progress=progress,
             )
@@ -272,6 +274,7 @@ class FfmpegBlackSplit:
         output_directory: str,
         start: Union[float, None] = None,
         end: Union[float, None, Literal[""]] = None,
+        extension: str = "mkv",
         no_copy: bool = False,
         progress: bool = False,
     ):
@@ -283,6 +286,7 @@ class FfmpegBlackSplit:
             output_directory (str): Output directory.
             start (Union[float, None], optional): Start time. Defaults to None.
             end (Union[float, None, Literal[""]], optional): End time. Defaults to None.
+            extension (str, optional): Output extension. Defaults to "mkv".
             no_copy (bool, optional): Do not copy the streams, reencode them. Defaults to False.
             progress (bool, optional): Show progress bar. Defaults to False.
         """
@@ -296,13 +300,24 @@ class FfmpegBlackSplit:
             to_args = []
 
         if no_copy:
+            # TODO: allow setting codec
             codec_args = ["-c:v", "libx264", "-c:a", "aac"]
         else:
             codec_args = ["-c", "copy"]
 
-        suffix = f"{start}-{end}.mkv"
+        suffix = f"{start}-{end}.{extension}"
         prefix = os.path.splitext(os.path.basename(input_file))[0]
         output_file = os.path.join(output_directory, f"{prefix}_{suffix}")
+
+        # see https://github.com/slhck/ffmpeg-black-split/issues/3
+        ignore_data_args = (
+            [
+                "-map",
+                "-0:d",  # ignore data streams
+            ]
+            if extension == "mkv"
+            else []
+        )
 
         cmd = [
             "ffmpeg",
@@ -316,6 +331,7 @@ class FfmpegBlackSplit:
             *codec_args,
             "-map",
             "0",
+            *ignore_data_args,
             output_file,
         ]
 
