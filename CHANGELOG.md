@@ -1,6 +1,11 @@
 # Changelog
 
 
+## v0.6.0 (2024-08-22)
+
+* Feat: allow setting extension, fix data stream issue #3.
+
+
 ## v0.5.1 (2024-07-08)
 
 * Fix detection of fractional seconds.
