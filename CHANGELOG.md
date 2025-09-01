@@ -1,6 +1,19 @@
 # Changelog
 
 
+## v0.6.1 (2025-09-01)
+
+* Bump version to 0.6.1.
+
+* Migrate to uv and modern package structure.
+
+* Set python_requires to >=3.9.
+
+* Changed license specifier.
+
+* Removed wheel settings from setup.cfg.
+
+
 ## v0.6.0 (2024-08-22)
 
 * Feat: allow setting extension, fix data stream issue #3.

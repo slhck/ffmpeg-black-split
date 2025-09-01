@@ -4,7 +4,7 @@ build-backend = "uv_build"
 
 [project]
 name = "ffmpeg_black_split"
-version = "0.6.0"
+version = "0.6.1"
 description = "Split a video by black frames"
 readme = "README.md"
 license = "MIT"
