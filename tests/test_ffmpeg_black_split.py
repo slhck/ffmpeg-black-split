@@ -3,15 +3,12 @@
 import json
 import os
 import subprocess
-import sys
 
 import pytest
 
-TEST_FILE = os.path.abspath(os.path.join(os.path.dirname(__file__), "test.mp4"))
-
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
-
 from ffmpeg_black_split import FfmpegBlackSplit as ffbs
+
+TEST_FILE = os.path.abspath(os.path.join(os.path.dirname(__file__), "test.mp4"))
 
 
 def run_command(cmd):

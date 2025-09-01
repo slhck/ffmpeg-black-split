@@ -24,18 +24,25 @@ Contents:
 
 ## Requirements
 
-- Python 3.8 or higher
+- Python 3.9 or higher
 - FFmpeg:
-    - download a static build from [their website](http://ffmpeg.org/download.html))
-    - put the `ffmpeg` executable in your `$PATH`
+  - download a static build from [their website](http://ffmpeg.org/download.html))
+  - put the `ffmpeg` executable in your `$PATH`
 
 ## Installation
+
+Simply run it via [uv](https://docs.astral.sh/uv/getting-started/installation/):
+
+```bash
+uvx ffmpeg-black-split
+```
+
+Or install via [pipx](https://pipx.pypa.io/latest/installation/).
+Or with pip:
 
 ```bash
 pip3 install --user ffmpeg_black_split
 ```
-
-Or clone this repository, then run the tool with `python3 -m ffmpeg_black_split`.
 
 ## Usage
 
