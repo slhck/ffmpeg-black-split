@@ -115,6 +115,7 @@ See `ffmpeg-black-split -h` for more:
 ```
 usage: ffmpeg-black-split [-h] [-d BLACK_MIN_DURATION] [-r PICTURE_BLACK_RATIO_TH] [-t PIXEL_BLACK_TH]
                    [-o OUTPUT_DIRECTORY] [-e OUTPUT_EXTENSION] [--no-split] [--no-copy] [-p] [-v]
+                   [--ffmpeg-path FFMPEG_PATH]
                    input
 
 ffmpeg-black-split v0.4.0
@@ -143,6 +144,8 @@ options:
   -p, --progress        Show a progress bar on stderr (default: False)
   -v, --verbose         Print verbose info to stderr, and JSON of black and content periods to
                         stdout (default: False)
+  --ffmpeg-path FFMPEG_PATH
+                        Path to ffmpeg executable (default: ffmpeg)
 ```
 
 ## API

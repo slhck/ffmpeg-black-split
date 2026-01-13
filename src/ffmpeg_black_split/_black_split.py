@@ -38,17 +38,21 @@ class FfmpegBlackSplit:
     DEFAULT_PICTURE_BLACK_RATIO_TH = 0.98
     DEFAULT_PIXEL_BLACK_TH = 0.10
 
-    def __init__(self, input_file: str, progress: bool = False):
+    def __init__(
+        self, input_file: str, progress: bool = False, ffmpeg_path: str = "ffmpeg"
+    ):
         """
         Args:
             input_file (str): Input file.
             progress (bool, optional): Show progress bar. Defaults to False.
+            ffmpeg_path (str, optional): Path to ffmpeg executable. Defaults to "ffmpeg".
         """
         self.input_file = input_file
         self.black_periods: list[Period] = []
         self.content_periods: list[Union[Period, OpenPeriod]] = []
 
         self.progress = progress
+        self.ffmpeg_path = ffmpeg_path
 
     def detect_black_periods(
         self,
@@ -82,7 +86,7 @@ class FfmpegBlackSplit:
 
         try:
             cmd = [
-                "ffmpeg",
+                self.ffmpeg_path,
                 "-hide_banner",
                 "-y",
                 "-i",
@@ -193,6 +197,7 @@ class FfmpegBlackSplit:
         no_copy: bool = False,
         progress: bool = False,
         filtered_black_periods: Optional[list[Period]] = None,
+        ffmpeg_path: Optional[str] = None,
     ):
         """
         Cut all periods to individual files.
@@ -202,7 +207,10 @@ class FfmpegBlackSplit:
             no_copy (bool, optional): Do not copy the streams, reencode them. Defaults to False.
             progress (bool, optional): Show progress bar. Defaults to False.
             filtered_black_periods (Optional[list[Period]]): List of filtered black periods to use for cutting
+            ffmpeg_path (str, optional): Path to ffmpeg executable. Uses instance default if not specified.
         """
+        if ffmpeg_path is None:
+            ffmpeg_path = self.ffmpeg_path
         if filtered_black_periods is not None:
             content_periods = self.black_periods_to_content_periods(
                 filtered_black_periods
@@ -228,6 +236,7 @@ class FfmpegBlackSplit:
                 extension=extension,
                 no_copy=no_copy,
                 progress=progress,
+                ffmpeg_path=ffmpeg_path,
             )
 
     @staticmethod
@@ -277,6 +286,7 @@ class FfmpegBlackSplit:
         extension: str = "mkv",
         no_copy: bool = False,
         progress: bool = False,
+        ffmpeg_path: str = "ffmpeg",
     ):
         """
         Cut a part of a video.
@@ -289,6 +299,7 @@ class FfmpegBlackSplit:
             extension (str, optional): Output extension. Defaults to "mkv".
             no_copy (bool, optional): Do not copy the streams, reencode them. Defaults to False.
             progress (bool, optional): Show progress bar. Defaults to False.
+            ffmpeg_path (str, optional): Path to ffmpeg executable. Defaults to "ffmpeg".
         """
         if start is None:
             start = 0
@@ -320,7 +331,7 @@ class FfmpegBlackSplit:
         )
 
         cmd = [
-            "ffmpeg",
+            ffmpeg_path,
             "-hide_banner",
             "-y",
             "-ss",

@@ -87,12 +87,20 @@ def main():
         action="store_true",
         help="Print verbose info to stderr, and JSON of black and content periods to stdout",
     )
+    parser.add_argument(
+        "--ffmpeg-path",
+        type=str,
+        default="ffmpeg",
+        help="Path to ffmpeg executable",
+    )
 
     cli_args = parser.parse_args()
 
     logger = setup_logger(level=logging.DEBUG if cli_args.verbose else logging.INFO)
 
-    ffbs = FfmpegBlackSplit(cli_args.input, progress=cli_args.progress)
+    ffbs = FfmpegBlackSplit(
+        cli_args.input, progress=cli_args.progress, ffmpeg_path=cli_args.ffmpeg_path
+    )
 
     ffbs.detect_black_periods(
         black_min_duration=cli_args.black_min_duration,
