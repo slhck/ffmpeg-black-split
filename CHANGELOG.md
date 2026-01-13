@@ -1,3 +1,19 @@
+## [0.7.0] - 2026-01-13
+
+### 🚀 Features
+
+- Add --ffmpeg-path option
+
+### ⚙️ Miscellaneous Tasks
+
+- Remove gitchangelog files
+- Update support to python 3.15
+- Test only Python 3.9 and 3.15
+- Bump version to 0.7.0
+
+### ◀️ Revert
+
+- Use Python 3.14 instead of 3.15
 ## [0.6.2] - 2025-10-17
 
 ### ⚙️ Miscellaneous Tasks
