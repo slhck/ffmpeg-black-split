@@ -1,4 +1,8 @@
-# ffmpeg Black Split
+<h1 align="center">ffmpeg Black Split</h1>
+
+<p align="center">
+  <img src="icon.png" alt="ffmpeg Black Split logo" width="160" height="160">
+</p>
 
 [![PyPI version](https://img.shields.io/pypi/v/ffmpeg-black-split.svg)](https://pypi.org/project/ffmpeg-black-split)
 
