@@ -1,3 +1,18 @@
+## [0.7.2] - 2026-10-11
+
+### 🐛 Bug Fixes
+
+- Detect blackdetect output of ffmpeg 9
+- *(deps)* Update dependencies with known vulnerabilities
+
+### 📚 Documentation
+
+- *(readme)* Add centered project icon
+
+### ⚙️ Miscellaneous Tasks
+
+- Require Python 3.10 and support Python 3.15
+- Bump version to 0.7.2
 ## [0.7.1] - 2026-03-30
 
 ### ⚙️ Miscellaneous Tasks
