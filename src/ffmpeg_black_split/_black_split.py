@@ -114,10 +114,12 @@ class FfmpegBlackSplit:
             if ff.stderr is None:
                 raise Exception("No stderr from ffmpeg")
 
+            # Older ffmpeg (e.g. 7.1) prefixes the lines with "[blackdetect @ 0x...]",
+            # newer ffmpeg (e.g. 9.0) with the filter instance name, "[Parsed_blackdetect_0 @ 0x...]"
             blackdetect_lines = [
                 line
                 for line in ff.stderr.splitlines()
-                if line.startswith("[blackdetect")
+                if re.match(r"\[(?:Parsed_)?blackdetect(?:_\d+)? @ ", line)
             ]
 
             if len(blackdetect_lines) == 0:
